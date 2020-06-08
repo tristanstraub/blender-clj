@@ -1,0 +1,30 @@
+* Motivation
+
+To script blender through libpython-clj, while the blender GUI is visible.
+
+* Procedure
+
+The python shared libary "bpy.so" is build from the blender project. The blender source code is patched with minimal
+changes to allow the GUI to be loaded into the foreground from the shared library.
+
+The build has been tested on:
+
+- fedora 31
+
+* Building
+
+#+BEGIN_SRC sh
+./build-blender-fedora.sh
+#+END_SRC
+
+* Testing
+
+#+BEGIN_SRC sh
+./build-blender-fedora.sh repl
+#+END_SRC
+
+#+BEGIN_SRC clojure
+(require 'blender-clj.examples.cube)
+
+(blender-clj.examples.cube/demo)
+#+END_SRC
