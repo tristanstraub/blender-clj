@@ -13,15 +13,21 @@ The build has been tested on:
 
 * Building
 
+In order to call blender from python, the python c library "bpy.so" has to be built:
+
 #+BEGIN_SRC sh
 ./build-blender-fedora.sh
 #+END_SRC
 
 * Testing
 
+Open a clojure repl with the following command:
+
 #+BEGIN_SRC sh
 ./build-blender-fedora.sh repl
 #+END_SRC
+
+Run the demo:
 
 #+BEGIN_SRC clojure
 (require 'blender-clj.examples.cube)
