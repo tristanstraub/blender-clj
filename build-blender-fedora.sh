@@ -33,7 +33,7 @@ function repl {
     BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -r
 }
 
-if [ -z "$1" ]; then
+if [ -z "${1:-}" ]; then
     (get-blender)
     (get-libraries)
     (build-module)
