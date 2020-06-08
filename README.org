@@ -13,7 +13,7 @@ The build has been tested on:
 
 * Building
 
-"bpy.so" can be build from the patched blender source as follows:
+"bpy.so" can be built from the patched blender source as follows:
 
 #+BEGIN_SRC sh
 ./build-blender-fedora.sh
