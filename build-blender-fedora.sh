@@ -32,4 +32,8 @@ function execute {
     BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -e "(require 'blender-clj.core) (blender-clj.core/gui)" -r
 }
 
-$@
+(get-blender)
+(get-libraries)
+(build-module)
+(build-jna-mapper)
+execute
