@@ -9,7 +9,7 @@ I want to script blender with clojure from cider/emacs, or CLI, etc. I want the 
 
 * Screenshot
 
-[[screenshot.png]
+[[screenshot.png]]
 
 * Procedure
 
