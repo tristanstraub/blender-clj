@@ -19,7 +19,7 @@ The build has been tested on:
 ./build-blender-fedora.sh
 #+END_SRC
 
-See https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora for more details.
+See https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora for more details regarding dependencies.
 
 * Testing
 
