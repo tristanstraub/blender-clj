@@ -1,11 +1,15 @@
+* Description
+
+This project uses libpython-clj and a custom build of blender as a python module, to be able to load it
+in my clojure repl and script it with the GUI visible, all from clojure.
+
 * Motivation
 
-I want to write scripts for blender in clojure. Instead of runnning blender
-in headless mode, I want the GUI to be visible while I write my scripts.
+I want to script blender with clojure from cider/emacs, or CLI, etc. I want the GUI to be visible.
 
 * Screenshot
 
-[[screenshot.png]]
+[[screenshot.png]
 
 * Procedure
 
