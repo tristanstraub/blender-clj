@@ -9,7 +9,7 @@ We need blender to be built as the python module "bpy.so", but patched to run th
 
 The build has been tested on:
 
-- Fedora 31
+- Fedora 31 (python 3.7.7, blender 2.83)
 
 * Building
 
