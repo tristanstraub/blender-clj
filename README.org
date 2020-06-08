@@ -1,19 +1,19 @@
 * Motivation
 
-To script blender through libpython-clj, while the blender GUI is visible.
+I want to write scripts for blender in clojure. Instead of runnning blender
+in headless mode, I want the GUI visible while I run scripts.
 
 * Procedure
 
-The python shared libary "bpy.so" is build from the blender project. The blender source code is patched with minimal
-changes to allow the GUI to be loaded into the foreground from the shared library.
+We need "bpy.so" to be built from the blender project. We will patch blender to run the GUI in the foreground, while still building "bpy.so".
 
 The build has been tested on:
 
-- fedora 31
+- Fedora 31
 
 * Building
 
-In order to call blender from python, the python c library "bpy.so" has to be built:
+"bpy.so" can be build from the patched blender source as follows:
 
 #+BEGIN_SRC sh
 ./build-blender-fedora.sh
