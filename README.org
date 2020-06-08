@@ -3,6 +3,10 @@
 I want to write scripts for blender in clojure. Instead of runnning blender
 in headless mode, I want the GUI to be visible while I write my scripts.
 
+* Screenshot
+
+[[screenshot.png]]
+
 * Procedure
 
 We need blender to be built as the python module "bpy.so", but patched to run the GUI in the foreground.
