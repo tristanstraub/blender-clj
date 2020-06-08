@@ -28,12 +28,15 @@ function build-jna-mapper {
     javac -cp ./lib/jna-5.5.0/dist/jna.jar src/blender_clj/DirectMapped.java
 }
 
-function execute {
-    BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -e "(require 'blender-clj.core) (blender-clj.core/gui)" -r
+function repl {
+    BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -r
 }
 
-(get-blender)
-(get-libraries)
-(build-module)
-(build-jna-mapper)
-execute
+if [ -z "$1" ]; then
+    (get-blender)
+    (get-libraries)
+    (build-module)
+    (build-jna-mapper)
+else
+    $1
+fi

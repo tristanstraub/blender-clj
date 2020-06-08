@@ -22,28 +22,31 @@
           func        (com.sun.jna.Function/getFunction (DirectMapped/PyCapsule_GetPointer ui-main-ptr "ui_main"))]
       (.invoke func (make-array Object 0)))))
 
-(defn gui
+(def gui-future
+  (delay (let [f (future (let [sys (py/import-module "sys")]
+                           (py.. sys -path (append bpy-so-path))
+                           (ui-main)))]
+           (Thread/sleep 5000)
+           f)))
+
+(defn ensure-gui
   []
-  (future
-    (let [sys (py/import-module "sys")]
-      (py.. sys -path (append bpy-so-path))
-      (ui-main))))
+  @gui-future)
+
+(defn get-defaults
+  []
+  (let [bpy    (py/import-module "bpy")
+        window (first (seq (py.. bpy -context -window_manager -windows)))]
+    {"window" window
+     "screen" (py.. window -screen)}))
 
 (defn with-context
   [f]
   (let [bpy (py/import-module "bpy")]
     (py.. bpy -app -timers
           (register (fn []
-                      (let [window (first (seq (py.. bpy -context -window_manager -windows)))]
-                        (f {"window" window
-                            "screen" (py.. window -screen)})))))))
-
-(comment
-  (gui)
-
-  (let [bpy (py/import-module "bpy")]
-    (with-context
-      (fn [ctx]
-        (py.. bpy -ops -mesh (primitive_cube_add ctx)))))
-
-  )
+                      (try
+                        (f (get-defaults))
+                        (catch Exception e
+                          (println e)))
+                      nil)))))
