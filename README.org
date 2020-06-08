@@ -34,3 +34,9 @@ Run the demo:
 
 (blender-clj.examples.cube/demo)
 #+END_SRC
+
+Alternatively, a repl can be loaded as follows, where BPY_BIN_PATH is the directory where bpy.so can be found.
+
+#+BEGIN_SRC
+BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -r
+#+END_SRC
