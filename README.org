@@ -1,7 +1,7 @@
 * Motivation
 
 I want to write scripts for blender in clojure. Instead of runnning blender
-in headless mode, I want the GUI visible while I run scripts.
+in headless mode, I want the GUI to be visible while I write my scripts.
 
 * Procedure
 
