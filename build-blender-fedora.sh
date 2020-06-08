@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 # https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora
 
