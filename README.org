@@ -21,7 +21,7 @@ The build has been tested on:
 
 See https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora for more details regarding dependencies.
 
-* Testing
+* Demo
 
 Open a clojure repl with the following command:
 
