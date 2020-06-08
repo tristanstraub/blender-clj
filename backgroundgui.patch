@@ -1,0 +1,60 @@
+diff --git a/source/blender/python/intern/bpy.c b/source/blender/python/intern/bpy.c
+index de8fd87db58..e004e2c1a28 100644
+--- a/source/blender/python/intern/bpy.c
++++ b/source/blender/python/intern/bpy.c
+@@ -290,6 +290,19 @@ static PyObject *bpy_escape_identifier(PyObject *UNUSED(self), PyObject *value)
+   return value_escape;
+ }
+ 
++void WM_python_main(void);
++
++PyObject * ui_main_ptr(void) {
++  return PyCapsule_New((void*)&WM_python_main, "ui_main", NULL);
++}
++
++static PyMethodDef meth_bpy_ui_main = {
++    "ui_main",
++    (PyCFunction)ui_main_ptr,
++    METH_NOARGS,
++    NULL,
++};
++
+ static PyMethodDef meth_bpy_script_paths = {
+     "script_paths",
+     (PyCFunction)bpy_script_paths,
+@@ -407,6 +420,10 @@ void BPy_init_modules(void)
+   /* Register methods and property get/set for RNA types. */
+   BPY_rna_types_extend_capi();
+ 
++  PyModule_AddObject(mod,
++                     meth_bpy_ui_main.ml_name,
++                     (PyObject *)PyCFunction_New(&meth_bpy_ui_main, NULL));
++
+   /* utility func's that have nowhere else to go */
+   PyModule_AddObject(mod,
+                      meth_bpy_script_paths.ml_name,
+diff --git a/source/creator/creator.c b/source/creator/creator.c
+index ea64184c826..d3465a05d07 100644
+--- a/source/creator/creator.c
++++ b/source/creator/creator.c
+@@ -214,6 +214,11 @@ char **environ = NULL;
+ #  endif
+ #endif
+ 
++void WM_python_main(void)
++{
++  WM_main(evil_C);
++}
++
+ /**
+  * Blender's main function responsibilities are:
+  * - setup subsystems.
+@@ -419,7 +424,7 @@ int main(int argc,
+ 
+ #if defined(WITH_PYTHON_MODULE) || defined(WITH_HEADLESS)
+   /* Python module mode ALWAYS runs in background-mode (for now). */
+-  G.background = true;
++  G.background = false;
+ #else
+   if (G.background) {
+     main_signal_setup_background();
