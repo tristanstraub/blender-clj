@@ -23,7 +23,7 @@ See https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora for more details
 
 * Demo
 
-Open a clojure repl with the following command:
+After building, open a clojure repl with the following command:
 
 #+BEGIN_SRC sh
 ./build-blender-fedora.sh repl
