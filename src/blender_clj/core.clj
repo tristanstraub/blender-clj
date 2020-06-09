@@ -22,7 +22,7 @@
           func        (com.sun.jna.Function/getFunction (DirectMapped/PyCapsule_GetPointer ui-main-ptr "ui_main"))]
       (.invoke func (make-array Object 0)))))
 
-(def gui-future
+(defonce gui-future
   (delay (let [f (future (let [sys (py/import-module "sys")]
                            (py.. sys -path (append bpy-so-path))
                            (ui-main)))]
@@ -40,17 +40,24 @@
     {"window" window
      "screen" (py.. window -screen)}))
 
+(def ^:dynamic *in-timer?*
+  false)
+
 (defn with-context
   [f]
-  (let [bpy (py/import-module "bpy")
-        p   (promise)]
-    (py.. bpy -app -timers
-          (register (fn []
-                      (try
-                        (deliver p (f (get-defaults)))
-                        (catch Exception e
-                          (deliver p e)))
-                      nil)))
+  (let [bpy      (py/import-module "bpy")
+        p        (promise)
+        timer-fn (fn []
+                   (try
+                     (deliver p (f (get-defaults)))
+                     (catch Exception e
+                       (deliver p e)))
+                   nil)]
+    (if *in-timer?*
+      (timer-fn)
+      (py.. bpy -app -timers (register (fn []
+                                         (binding [*in-timer?* true]
+                                           (timer-fn))))))
     (let [result @p]
       (if (instance? Exception result)
         (throw result)
