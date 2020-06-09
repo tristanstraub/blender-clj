@@ -51,4 +51,7 @@
                         (catch Exception e
                           (deliver p e)))
                       nil)))
-    @p))
+    (let [result @p]
+      (if (instance? Exception result)
+        (throw result)
+        result))))
