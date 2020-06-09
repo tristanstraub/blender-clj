@@ -42,11 +42,13 @@
 
 (defn with-context
   [f]
-  (let [bpy (py/import-module "bpy")]
+  (let [bpy (py/import-module "bpy")
+        p   (promise)]
     (py.. bpy -app -timers
           (register (fn []
                       (try
-                        (f (get-defaults))
+                        (deliver p (f (get-defaults)))
                         (catch Exception e
-                          (println e)))
-                      nil)))))
+                          (deliver p e)))
+                      nil)))
+    @p))
