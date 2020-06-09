@@ -13,7 +13,9 @@
 
 (defn ui-main
   []
-  (let [library (jna/load-library libpy-base/*python-library*)]
+  (let [sys (doto (py/import-module "sys")
+              (py.. -path (append bpy-so-path)))
+        library (jna/load-library libpy-base/*python-library*)]
     (com.sun.jna.Native/register DirectMapped library)
 
     (let [bpy         (py/import-module "bpy")
@@ -21,17 +23,6 @@
           ui-main-ptr (ensure-pyobj (py.. _bpy (ui_main)))
           func        (com.sun.jna.Function/getFunction (DirectMapped/PyCapsule_GetPointer ui-main-ptr "ui_main"))]
       (.invoke func (make-array Object 0)))))
-
-(defonce gui-future
-  (delay (let [f (future (let [sys (py/import-module "sys")]
-                           (py.. sys -path (append bpy-so-path))
-                           (ui-main)))]
-           (Thread/sleep 5000)
-           f)))
-
-(defn ensure-gui
-  []
-  @gui-future)
 
 (defn get-defaults
   []
