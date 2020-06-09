@@ -1,6 +1,6 @@
 (ns blender-clj.examples.data-simple
   (:require [blender-clj.core :as blender]
-            [libpython-clj.python :refer [py.. dir] :as py]))
+            [libpython-clj.python :refer [py..] :as py]))
 
 (def ^:dynamic *bpy*
   nil)
