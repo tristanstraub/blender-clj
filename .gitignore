@@ -1,0 +1,10 @@
+/lib/
+/vendor/
+
+/.cpcache/
+
+/src/blender_clj/DirectMapped.class
+
+# InterlliJ
+/.idea/
+blender-clj.iml
