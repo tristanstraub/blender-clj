@@ -38,6 +38,8 @@ you can jack-in with your favourite editor.
 clj -A:nREPL
 #+END_SRC
 
+For emacs users, ".dir-locals.el" exists to make jacking in work as expected, along with cider middleware.
+
 * Demo
 
 After building, open a clojure repl with the following command:
