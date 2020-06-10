@@ -13,8 +13,8 @@
 
 (defn ui-main
   []
-  (let [sys (doto (py/import-module "sys")
-              (py.. -path (append bpy-so-path)))
+  (let [sys     (doto (py/import-module "sys")
+                  (py.. -path (append bpy-so-path)))
         library (jna/load-library libpy-base/*python-library*)]
     (com.sun.jna.Native/register DirectMapped library)
 
