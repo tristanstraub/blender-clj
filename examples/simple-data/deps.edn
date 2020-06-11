@@ -1,0 +1,5 @@
+{:paths   ["src"]
+ :deps    {org.clojure/clojure      {:mvn/version "1.10.1"}
+           blender-clj              {:local/root "../../"}}
+
+ :aliases {:nREPL {:main-opts ["-m" "blender-clj.nrepl-cmdline"]}}}
