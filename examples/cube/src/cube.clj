@@ -1,4 +1,4 @@
-(ns blender-clj.examples.cube
+(ns cube
   (:require [blender-clj.core :as blender]
             [libpython-clj.python :refer [py..] :as py]))
 

@@ -4,12 +4,13 @@
             [tech.v2.datatype :as dtype]
             libpython-clj.jna.protocols.object
             [libpython-clj.jna.base :as libpy-base :refer [ensure-pyobj]]
-            [tech.jna :as jna])
+            [tech.jna :as jna]
+            [clojure.java.io :as io])
   (:import [blender_clj DirectMapped]))
 
 (def bpy-so-path
   (or (System/getenv "BPY_BIN_PATH")
-      "vendor/blender-git/build_linux/bin"))
+      (.getAbsolutePath (io/file (io/resource "blender-git/build_linux/bin")))))
 
 (defn ui-main
   []

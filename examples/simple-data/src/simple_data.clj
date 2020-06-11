@@ -1,4 +1,4 @@
-(ns blender-clj.examples.data-simple
+(ns blender-clj.examples.simple-data
   (:require [blender-clj.core :as blender]
             [libpython-clj.python :refer [py..] :as py]))
 
