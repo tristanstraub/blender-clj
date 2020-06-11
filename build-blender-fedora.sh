@@ -34,7 +34,7 @@ function server {
 }
 
 function repl {
-    rm .nrepl-port
+    rm -f .nrepl-port
     (server &)
     while [ ! -e .nrepl-port ] || [ -z "$(cat .nrepl-port)" ]; do
         sleep 1
