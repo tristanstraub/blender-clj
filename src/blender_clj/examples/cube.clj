@@ -4,8 +4,6 @@
 
 (defn demo
   []
-  (blender/ensure-gui)
-
   (let [bpy (py/import-module "bpy")]
     (blender/with-context
       (fn [defaults]

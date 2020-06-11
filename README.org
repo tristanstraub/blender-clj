@@ -29,6 +29,17 @@ The build has been tested on:
 
 See https://wiki.blender.org/wiki/Building_Blender/Linux/Fedora for more details regarding dependencies.
 
+* Running
+
+To get blender running on the main thread and nrepl in the background, run the following, after which
+you can jack-in with your favourite editor.
+
+#+BEGIN_SRC sh
+clj -A:nREPL
+#+END_SRC
+
+For emacs users, ".dir-locals.el" exists to make jacking in work as expected, along with cider middleware.
+
 * Demo
 
 After building, open a clojure repl with the following command:

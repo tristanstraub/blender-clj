@@ -29,8 +29,18 @@ function build-jna-mapper {
     javac -cp ./lib/jna-5.5.0/dist/jna.jar src/blender_clj/DirectMapped.java
 }
 
+function server {
+    BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -A:nREPL | grep -o "nrepl://[^:]*:.*" | cut -d ":" -f 3 > .nrepl-port
+}
+
 function repl {
-    BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -r
+    rm -f .nrepl-port
+    (server &)
+    while [ ! -e .nrepl-port ] || [ -z "$(cat .nrepl-port)" ]; do
+        sleep 1
+    done
+    BPY_BIN_PATH=vendor/blender-git/build_linux/bin clj -R:nREPL -m nrepl.cmdline -c -p $(cat .nrepl-port)
+
 }
 
 if [ -z "${1:-}" ]; then
@@ -39,5 +49,5 @@ if [ -z "${1:-}" ]; then
     (build-module)
     (build-jna-mapper)
 else
-    $1
+    $@
 fi

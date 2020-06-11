@@ -72,8 +72,6 @@
 
 (defn demo
   []
-  (blender/ensure-gui)
-
   (let [scene [{:type      :primitive
                 :name      "cube-1"
                 :primitive :cube
