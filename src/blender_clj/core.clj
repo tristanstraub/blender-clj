@@ -34,8 +34,8 @@
 (def ^:dynamic *in-timer?*
   false)
 
-(defn with-context
-  [f]
+(defn with-context-transaction
+  [state f]
   (let [bpy      (py/import-module "bpy")
         p        (promise)
         timer-fn (fn []
@@ -53,3 +53,19 @@
       (if (instance? Exception result)
         (throw result)
         result))))
+
+(defonce with-context-agent
+  (agent nil))
+
+(defn skip-exceptions
+  [f]
+  (fn [state & args]
+    (try
+      (apply f state args)
+      (catch Exception e
+        (println e)
+        state))))
+
+(defn with-context
+  [f]
+  (send with-context-agent (skip-exceptions with-context-transaction) f))
