@@ -17,13 +17,12 @@
   (let [sys     (doto (py/import-module "sys")
                   (py.. -path (append bpy-so-path)))
         library (jna/load-library libpy-base/*python-library*)]
-    (com.sun.jna.Native/register DirectMapped library)
+    (py/import-module "bpy")
 
-    (let [bpy         (py/import-module "bpy")
-          _bpy        (py/import-module "_bpy")
-          ui-main-ptr (ensure-pyobj (py.. _bpy (ui_main)))
-          func        (com.sun.jna.Function/getFunction (DirectMapped/PyCapsule_GetPointer ui-main-ptr "ui_main"))]
-      (.invoke func (make-array Object 0)))))
+    (let [library (jna/load-library (str bpy-so-path "/bpy.so"))]
+      (com.sun.jna.Native/register DirectMapped library)
+
+      (DirectMapped/WM_python_main))))
 
 (defn get-defaults
   []
