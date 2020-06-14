@@ -36,24 +36,24 @@
   false)
 
 (defn with-context-transaction
-  [state f]
-  (let [bpy      (py/import-module "bpy")
-        p        (promise)
-        timer-fn (fn []
-                   (try
-                     (deliver p (f (get-defaults)))
-                     (catch Exception e
-                       (deliver p e)))
-                   nil)]
-    (if *in-timer?*
-      (timer-fn)
-      (py.. bpy -app -timers (register (fn []
-                                         (binding [*in-timer?* true]
-                                           (timer-fn))))))
-    (let [result @p]
-      (if (instance? Exception result)
-        (throw result)
-        result))))
+  ([f]
+   (with-context-transaction nil f))
+  ([_ f]
+   (let [bpy      (py/import-module "bpy")
+         p        (promise)
+         timer-fn (fn []
+                    (try
+                      (deliver p (f (get-defaults)))
+                      (catch Exception e
+                        (deliver p e)))
+                    nil)]
+     (py.. bpy -app -timers (register (fn []
+                                        (binding [*in-timer?* true]
+                                          (timer-fn)))))
+     (let [result @p]
+       (if (instance? Exception result)
+         (throw result)
+         result)))))
 
 (defonce with-context-agent
   (agent nil))
@@ -69,4 +69,6 @@
 
 (defn with-context
   [f]
-  (send with-context-agent (skip-exceptions with-context-transaction) f))
+  (if *in-timer?*
+    (f (get-defaults))
+    (send with-context-agent (skip-exceptions with-context-transaction) f)))
