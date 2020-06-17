@@ -38,7 +38,6 @@
 (defn with-context-transaction
   [p _ f]
   (let [bpy      (py/import-module "bpy")
-        p        (promise)
         timer-fn (fn []
                    (try
                      (deliver p (f (get-defaults)))
