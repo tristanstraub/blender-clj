@@ -27,10 +27,18 @@
 
 (defn get-defaults
   []
-  (let [bpy    (py/import-module "bpy")
-        window (first (seq (py.. bpy -context -window_manager -windows)))]
-    {"window" window
-     "screen" (py.. window -screen)}))
+  (let [bpy       (py/import-module "bpy")
+        window    (first (seq (py.. bpy -context -window_manager -windows)))
+        area      (first (filter #(= "VIEW_3D" (py.. % -type)) (py.. window -screen -areas)))
+        region    (first (filter #(= "WINDOW" (py.. % -type)) (py.. area -regions)))
+        workspace (first (filter #(= "Layout" (py.. % -name)) (py.. bpy -data -workspaces)))
+        ctx       (py.. bpy -context (copy))]
+    (py.. ctx (update (py/->py-dict {"window"    window
+                                     "screen"    (py.. window -screen)
+                                     "area"      area
+                                     "region"    region
+                                     "workspace" workspace})))
+    ctx))
 
 (def ^:dynamic *in-timer?*
   false)
