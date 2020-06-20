@@ -3,6 +3,8 @@
 This project uses libpython-clj and a custom build of blender as a python module, to be able to load it
 in my clojure repl and script it with the GUI visible, all from clojure.
 
+For an alternative approach, which doesn't require a custom build of blender, see https://github.com/tristanstraub/clj-python-trampoline
+
 * Motivation
 
 I want to script blender with clojure from cider/emacs, or CLI, etc. I want the GUI to be visible.
